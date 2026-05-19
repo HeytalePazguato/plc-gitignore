@@ -1,0 +1,81 @@
+version: 2
+updates:
+  # GitHub Actions: keep workflow action versions current.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    target-branch: "develop"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      # One PR per scheduled run for all action bumps. Without grouping you
+      # get one PR per action per cycle, which is noise rather than signal.
+      gha:
+        applies-to: version-updates
+        patterns:
+          - "*"
+
+  # TODO: uncomment the ecosystem matching your project. Each entry already
+  # has `groups:` configured so a scheduled run produces one PR per group
+  # (prod / dev split where it makes sense) rather than one PR per dep.
+  #
+  # - package-ecosystem: "gomod"
+  #   directory: "/"
+  #   schedule: { interval: "weekly" }
+  #   open-pull-requests-limit: 5
+  #   target-branch: "develop"
+  #   labels: ["dependencies"]
+  #   groups:
+  #     go:
+  #       applies-to: version-updates
+  #       patterns: ["*"]
+  #
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule: { interval: "weekly" }
+  #   open-pull-requests-limit: 5
+  #   target-branch: "develop"
+  #   labels: ["dependencies"]
+  #   groups:
+  #     # Split prod vs dev so dev-only churn (typescript, vitest, @types/*)
+  #     # doesn't block prod-dep review.
+  #     npm-prod:
+  #       applies-to: version-updates
+  #       dependency-type: "production"
+  #       patterns: ["*"]
+  #     npm-dev:
+  #       applies-to: version-updates
+  #       dependency-type: "development"
+  #       patterns: ["*"]
+  #
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule: { interval: "weekly" }
+  #   target-branch: "develop"
+  #   labels: ["dependencies"]
+  #   groups:
+  #     pip:
+  #       applies-to: version-updates
+  #       patterns: ["*"]
+  #
+  # - package-ecosystem: "cargo"
+  #   directory: "/"
+  #   schedule: { interval: "weekly" }
+  #   target-branch: "develop"
+  #   labels: ["dependencies"]
+  #   groups:
+  #     cargo:
+  #       applies-to: version-updates
+  #       patterns: ["*"]
+  #
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule: { interval: "monthly" }
+  #   target-branch: "develop"
+  #   labels: ["dependencies"]
+  #   groups:
+  #     docker:
+  #       applies-to: version-updates
+  #       patterns: ["*"]
