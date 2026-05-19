@@ -3,6 +3,8 @@
 /build/
 /out/
 /target/
+/plc-gitignore
+/plc-gitignore.exe
 
 # Local Claude Code settings
 .claude/

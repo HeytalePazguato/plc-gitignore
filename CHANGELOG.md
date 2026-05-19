@@ -5,29 +5,28 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — next: 0.0.1
+## [Unreleased] — next: 0.0.2
+
+## [0.0.1] - 2026-05-18
 
 ### Added
 
-- `hotfix/<version>` branch convention for emergency patches cut directly
-  from `main` when `develop` has unfinished work that can't ship.
-- Repo settings now enable `delete_branch_on_merge=true` via `gh repo edit`.
-
-### Changed
-
-- Branch flow diagram now shows two paths to `main`: `release/*` for
-  planned releases and `hotfix/*` for emergency patches. PRs to `main`
-  must originate from one of these two — never from `develop` directly,
-  because the `delete_branch_on_merge` setting would wipe `develop` on
-  the remote on every release.
-
-### Why
-
-Discovered while shipping the first 0.0.1 of a project that used this
-blueprint: when CI/release-workflow fixes were PR'd from `develop`
-directly to `main`, the auto-delete-on-merge setting deleted `develop`
-on the remote each time. The fix is procedural — always route through
-`release/*` or `hotfix/*` — so the blueprint now codifies that.
+- Initial CLI scaffold: `plc-gitignore init --vendor <name>` generates
+  `.gitignore` and `.gitattributes` for a PLC vendor.
+- TwinCAT 3 rule set: `_Boot/`, `_CompileInfo/`, `*.TcLIDs`, `*.tmc`,
+  `*.compiled`, `.vs/`, user-settings, hardware-scan cache, HMI build
+  output (opt-in), license blobs, plus `.gitattributes` merge=union for
+  `*.tsproj`/`*.plcproj` and LF normalization for `*.st`.
+- Codesys rule set: `*.compileinfo`, `*.object`, `*.app`, Eclipse-style
+  workspace metadata, Python scripting caches, device build cache,
+  auto-save backups.
+- `plc-gitignore check --vendor <name>` scans a repo for files matching
+  vendor ignore patterns and reports each finding with a reason.
+  `--fix` appends the missing patterns to `.gitignore` and untracks the
+  files via `git rm --cached`.
+- Build flag stamping (`-X main.version`, `main.commit`, `main.date`)
+  so the binary responds to `version` with the spec'd format.
+- Test coverage for rule essentials, both generators, scan, and fix.
 
 <!--
   Add entries here while working on `develop` or `release/*`. The heading
