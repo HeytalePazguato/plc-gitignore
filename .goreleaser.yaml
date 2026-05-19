@@ -1,0 +1,67 @@
+# .goreleaser.yaml
+# https://goreleaser.com
+#
+# Builds and publishes plc-gitignore binaries for Linux, macOS, and
+# Windows on amd64/arm64. Run locally with `goreleaser release --clean`.
+# CI invokes it on push to main (see .github/workflows/release.yml).
+
+version: 2
+
+project_name: plc-gitignore
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: plc-gitignore
+    main: ./cmd/plc-gitignore
+    binary: plc-gitignore
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - id: default
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats: ["tar.gz"]
+    format_overrides:
+      - goos: windows
+        formats: ["zip"]
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^chore:"
+      - "^ci:"
+
+release:
+  github:
+    owner: HeytalePazguato
+    name: plc-gitignore
+  draft: false
+  prerelease: auto

@@ -1,8 +1,8 @@
-site_name: "{{PROJECT_NAME}}"
-site_description: "{{DESCRIPTION}}"
-site_url: "https://{{OWNER}}.github.io/{{PROJECT_NAME}}/"
-repo_url: "https://github.com/{{OWNER}}/{{PROJECT_NAME}}"
-repo_name: "{{OWNER}}/{{PROJECT_NAME}}"
+site_name: "plc-gitignore"
+site_description: "Opinionated .gitignore and .gitattributes for PLC projects (TwinCAT, Codesys, B&R, Siemens TIA, Rockwell)."
+site_url: "https://HeytalePazguato.github.io/plc-gitignore/"
+repo_url: "https://github.com/HeytalePazguato/plc-gitignore"
+repo_name: "HeytalePazguato/plc-gitignore"
 edit_uri: edit/main/docs/
 
 docs_dir: docs

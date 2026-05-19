@@ -2,11 +2,11 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in {{PROJECT_NAME}}, please report it
+If you discover a security vulnerability in plc-gitignore, please report it
 responsibly.
 
 **Preferred channel:** open a private security advisory through GitHub:
-[Report a vulnerability](https://github.com/{{OWNER}}/{{PROJECT_NAME}}/security/advisories/new).
+[Report a vulnerability](https://github.com/HeytalePazguato/plc-gitignore/security/advisories/new).
 
 **Do NOT** open a public GitHub issue for security vulnerabilities.
 

@@ -1,56 +1,107 @@
-# project-blueprint
+# plc-gitignore
 
-Generic scaffolding for a new repo. Click **Use this template** at the top of
-the GitHub page to create a new project with all of this baked in.
+Generate opinionated `.gitignore` and `.gitattributes` for PLC projects.
+Supports **TwinCAT**, **Codesys**, **B&R Automation Studio**, **Siemens
+TIA Portal**, and **Rockwell Studio 5000**. Includes an audit command
+that finds files you forgot to ignore.
 
-## What's included
+## Why this exists
 
-| Path | Purpose |
+GitHub's official [gitignore templates repo](https://github.com/github/gitignore)
+covers hundreds of languages and tools. It has nothing for PLC projects.
+Every shop that starts using git for PLC code hand-rolls a `.gitignore`
+and gets it wrong — committing `_Boot/` directories, `.TcLIDs`
+breakpoint metadata, regenerated `.tmc` type caches, and per-user
+Visual Studio state.
+
+`plc-gitignore` ships the opinionated, comment-annotated ignore rules
+every vendor needs but nobody publishes.
+
+## Install
+
+### From source
+
+```sh
+go install github.com/HeytalePazguato/plc-gitignore/cmd/plc-gitignore@latest
+```
+
+### Pre-built binaries
+
+Grab the latest release for your OS/arch from
+[Releases](https://github.com/HeytalePazguato/plc-gitignore/releases).
+
+## Usage
+
+```sh
+plc-gitignore init --vendor twincat              # generate for TwinCAT
+plc-gitignore init --vendor codesys              # generate for Codesys
+plc-gitignore init --vendor br                   # generate for B&R
+plc-gitignore init --vendor siemens              # generate for Siemens TIA
+plc-gitignore init --vendor rockwell             # generate for Rockwell
+
+plc-gitignore init --vendor twincat --with-hmi   # include HMI rules
+plc-gitignore init --vendor twincat --with-lfs   # include Git LFS config
+plc-gitignore init --vendor twincat --with-hooks # generate pre-commit hook
+
+plc-gitignore check                              # scan repo for missed files
+plc-gitignore doctor                             # audit existing .gitignore
+```
+
+`check` and `doctor` auto-detect the vendor from file extensions; pass
+`--vendor` to override.
+
+## Output
+
+`plc-gitignore init` writes two files (three with `--with-hooks`):
+
+| File | Purpose |
 |---|---|
-| `BLUEPRINT.md` | The conventions doc — branch flow, versioning, CI/CD, distribution, anti-patterns. **Read this first.** |
-| `README.md` | This file. Replace it. |
-| `CHANGELOG.md` | Keep a Changelog 1.1.0, empty `[Unreleased]` ready. |
-| `VERSION` | Single-line semver, source of truth. Starts at the template sentinel `0.0.0` so the initial push to `main` doesn't accidentally tag `v0.0.1`. Bump on the first `release/*` branch. |
-| `CONTRIBUTING.md` | Quick start + branch flow + PR expectations. |
-| `CODE_OF_CONDUCT.md` | Contributor Covenant 2.1. |
-| `SECURITY.md` | Vulnerability reporting via private advisory. |
-| `LICENSE` | MIT. Replace if needed. |
-| `.gitattributes` | Line-ending normalization. Kills CRLF warnings on Windows. |
-| `.gitignore` | Common build/IDE/secrets ignores. Add your language's. |
-| `.github/FUNDING.yml` | GitHub Sponsors button. |
-| `.github/dependabot.yml` | Monthly Actions bumps + commented language ecosystems. Each entry has `groups:` configured so a run produces one bundled PR per group (prod/dev split for npm), not one PR per dep. |
-| `.github/PULL_REQUEST_TEMPLATE.md` | Summary / Changes / Test plan / Screenshots. |
-| `.github/ISSUE_TEMPLATE/` | YAML issue forms (bug + feature) + config (Discussions for questions). |
-| `.github/workflows/ci.yml` | Lint + build + test gate. |
-| `.github/workflows/prerelease.yml` | Dev artifacts on `develop`; tagged prereleases on `release/*`. |
-| `.github/workflows/release.yml` | Tag + publish on push to `main`. |
-| `.github/workflows/pages.yml` | Optional MkDocs Material docs site from `/docs`. |
-| `mkdocs.yml` | MkDocs Material config (delete with `/docs` if you don't want a docs site). |
-| `docs/` | Optional Pages source — plain Markdown, MkDocs Material renders it. |
+| `.gitignore`     | Vendor-specific ignore rules with inline comments explaining each section. |
+| `.gitattributes` | Merge strategy (`merge=union` for project XML), binary classifications, LF normalization. |
+| `.plc-gitignore-hooks/pre-commit` | Optional. Refuses commits matching known-bad patterns. Symlink into `.git/hooks/`. |
 
-## After clicking "Use this template"
+Every rule has an inline comment explaining *why* it's there.
 
-1. Read `BLUEPRINT.md` end to end (it's not long).
-2. **Delete `BLUEPRINT.md` from your new repo** — it's a setup reference,
-   not a project file. The template's `.gitignore` already lists it so it
-   won't sneak back in.
-   ```sh
-   git rm BLUEPRINT.md && git commit -m "chore: remove template reference"
-   ```
-3. Find every `TODO` comment in workflows and templates and resolve them.
-4. Search-and-replace placeholders:
-   - `{{PROJECT_NAME}}` → your project's name
-   - `{{OWNER}}` → your GitHub handle/org
-   - `{{DESCRIPTION}}` → one-sentence tagline
-5. Configure repo metadata via `gh repo edit` (see BLUEPRINT.md §5).
-6. **Protect `main`** via `gh api ... branches/main/protection` (see
-   BLUEPRINT.md §5) before pushing anything else.
-7. Create the `develop` branch and push your first commit there. `main` stays
-   untouched until your first release branch lands. **Do not** bump
-   `VERSION` from `0.0.0` until the first `release/*` branch — the
-   sentinel guard in `release.yml` is what makes initial push safe.
+## Vendors
+
+| Vendor | Detected by | Headline rules |
+|---|---|---|
+| **TwinCAT 3**   | `*.tsproj`, `*.plcproj`, `*.TcPOU` | `_Boot/`, `_CompileInfo/`, `*.TcLIDs`, `*.tmc`, `.vs/`, `*.suo`, hardware-scan cache |
+| **Codesys**     | `*.project`, `*.library`           | `*.compileinfo`, `*.object`, `*.app`, `.metadata/`, Python script caches |
+| **B&R**         | `*.apj`, `Physical.pkg`            | `Binaries/`, `Temp/`, `*.isopen`, `LastUser.set`, CPU build cache |
+| **Siemens TIA** | `*.ap17`, `*.ap18`, `*.ap19`, `*.ap20` | `.Siemens.Automation.Objectframe.FileStorage/`, `UserFiles/`, archive files |
+| **Rockwell**    | `*.ACD`, `*.L5X`, `*.L5K`          | `*.BAK`, `*.CRC`, `*.RSS`, `*.WRK`, `*.SEM` |
+
+## Commands
+
+### `init`
+
+Generates `.gitignore` + `.gitattributes` for the chosen vendor. Refuses
+to overwrite existing files unless `--force` is passed.
+
+### `check`
+
+Walks the working tree and reports files matching the vendor's ignore
+patterns. With `--fix`, appends missing patterns to `.gitignore` and
+runs `git rm --cached` on each finding.
+
+### `doctor`
+
+Reads the existing `.gitignore` (and `.gitattributes`) and reports
+which recommended rules are present, missing, or partially configured.
+Emits a score: `4/8 rules present`. Exit code 1 when score is incomplete.
+
+## Branch flow
+
+This project follows the blueprint in `BLUEPRINT.md`:
+
+```
+develop  →  release/<version>  →  main          (planned releases)
+                hotfix/<version> →  main         (emergency patches)
+```
+
+Daily work lands on `develop`. Releases ship via `release/*` branches.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Strip this line if you re-license the
-generated project.
+MIT — see [LICENSE](LICENSE).
