@@ -5,7 +5,29 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — next: 0.0.2
+## [Unreleased] — next: 0.1.0
+
+## [0.0.2] - 2026-05-18
+
+### Added
+
+- Three new vendor rule sets: **B&R Automation Studio**, **Siemens TIA
+  Portal**, **Rockwell Studio 5000**. Each ships with its own
+  `.gitignore` rules, `.gitattributes` merge/binary classifications,
+  HMI-specific extensions, and pre-commit hook warnings.
+- `plc-gitignore doctor` command — audits an existing `.gitignore`
+  against the vendor's recommended rules, reports OK / missing /
+  warnings, and scores the result.
+- `internal/detect` — auto-detects vendor from project file
+  extensions (e.g. `*.tsproj` → TwinCAT, `*.ACD` → Rockwell). `check`
+  and `doctor` use it when `--vendor` is omitted.
+- `--with-hmi` and `--with-lfs` flags on `init` — opt-in extensions
+  for HMI build output and Git LFS configuration.
+- `--with-hooks` flag — generates `.plc-gitignore-hooks/pre-commit`
+  that refuses to commit known-bad files (build artifacts, license
+  blobs, user-specific caches).
+- Test coverage for vendor detection, doctor audit, and pre-commit
+  hook rendering.
 
 ## [0.0.1] - 2026-05-18
 

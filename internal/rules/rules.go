@@ -63,6 +63,9 @@ func All() []RuleSet {
 	return []RuleSet{
 		TwinCAT(),
 		Codesys(),
+		BR(),
+		Siemens(),
+		Rockwell(),
 	}
 }
 
@@ -75,6 +78,15 @@ func ByVendor(id string) (RuleSet, error) {
 		}
 	}
 	return RuleSet{}, fmt.Errorf("unknown vendor %q (supported: twincat, codesys, br, siemens, rockwell)", id)
+}
+
+// VendorIDs returns the lowercase id for every supported vendor.
+func VendorIDs() []string {
+	ids := make([]string, 0, len(All()))
+	for _, r := range All() {
+		ids = append(ids, r.Vendor)
+	}
+	return ids
 }
 
 // equalFold is a tiny case-insensitive compare without pulling in strings
