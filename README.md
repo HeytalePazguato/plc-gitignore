@@ -19,7 +19,20 @@ every vendor needs but nobody publishes.
 
 ## Install
 
-### From source
+### Homebrew (macOS / Linux)
+
+```sh
+brew install HeytalePazguato/tap/plc-gitignore
+```
+
+### Scoop (Windows)
+
+```sh
+scoop bucket add HeytalePazguato https://github.com/HeytalePazguato/scoop-bucket
+scoop install plc-gitignore
+```
+
+### Go
 
 ```sh
 go install github.com/HeytalePazguato/plc-gitignore/cmd/plc-gitignore@latest

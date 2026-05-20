@@ -59,6 +59,30 @@ changelog:
       - "^chore:"
       - "^ci:"
 
+brews:
+  - name: plc-gitignore
+    repository:
+      owner: HeytalePazguato
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: https://github.com/HeytalePazguato/plc-gitignore
+    description: "Opinionated .gitignore and .gitattributes for PLC projects"
+    license: MIT
+    test: |
+      system "#{bin}/plc-gitignore", "version"
+    skip_upload: auto
+
+scoops:
+  - name: plc-gitignore
+    repository:
+      owner: HeytalePazguato
+      name: scoop-bucket
+      token: "{{ .Env.SCOOP_GITHUB_TOKEN }}"
+    homepage: https://github.com/HeytalePazguato/plc-gitignore
+    description: "Opinionated .gitignore and .gitattributes for PLC projects"
+    license: MIT
+    skip_upload: auto
+
 release:
   github:
     owner: HeytalePazguato
