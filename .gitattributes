@@ -11,11 +11,9 @@ Dockerfile  text eol=lf
 LICENSE     text eol=lf
 VERSION     text eol=lf
 
-# TODO: add your language's source extensions here, e.g.
-# *.go    text eol=lf
-# *.ts    text eol=lf
-# *.py    text eol=lf
-# *.rs    text eol=lf
+*.go    text eol=lf
+go.mod  text eol=lf
+go.sum  text eol=lf linguist-generated=true
 
 # Windows-only files always get CRLF.
 *.bat       text eol=crlf

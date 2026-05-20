@@ -1,9 +1,9 @@
-# {{PROJECT_NAME}}
+# plc-gitignore
 
-{{DESCRIPTION}}
+Opinionated .gitignore and .gitattributes for PLC projects (TwinCAT, Codesys, B&R, Siemens TIA, Rockwell).
 
-[View on GitHub](https://github.com/{{OWNER}}/{{PROJECT_NAME}}){ .md-button .md-button--primary }
-[Download latest release](https://github.com/{{OWNER}}/{{PROJECT_NAME}}/releases/latest){ .md-button }
+[View on GitHub](https://github.com/HeytalePazguato/plc-gitignore){ .md-button .md-button--primary }
+[Download latest release](https://github.com/HeytalePazguato/plc-gitignore/releases/latest){ .md-button }
 
 ## Install
 
@@ -11,7 +11,7 @@
 
 ## Links
 
-- [Issues](https://github.com/{{OWNER}}/{{PROJECT_NAME}}/issues)
-- [Discussions](https://github.com/{{OWNER}}/{{PROJECT_NAME}}/discussions)
-- [Releases](https://github.com/{{OWNER}}/{{PROJECT_NAME}}/releases)
-- [Security policy](https://github.com/{{OWNER}}/{{PROJECT_NAME}}/blob/main/SECURITY.md)
+- [Issues](https://github.com/HeytalePazguato/plc-gitignore/issues)
+- [Discussions](https://github.com/HeytalePazguato/plc-gitignore/discussions)
+- [Releases](https://github.com/HeytalePazguato/plc-gitignore/releases)
+- [Security policy](https://github.com/HeytalePazguato/plc-gitignore/blob/main/SECURITY.md)
