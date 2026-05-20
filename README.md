@@ -38,6 +38,13 @@ scoop install plc-gitignore
 go install github.com/HeytalePazguato/plc-gitignore/cmd/plc-gitignore@latest
 ```
 
+### Docker (GHCR)
+
+```sh
+docker run --rm -v "$PWD:/work" -w /work \
+  ghcr.io/heytalepazguato/plc-gitignore init --vendor twincat
+```
+
 ### Pre-built binaries
 
 Grab the latest release for your OS/arch from

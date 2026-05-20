@@ -21,7 +21,7 @@ permissions:
   # workflow artifacts via the GitHub API. Declaring any permissions block
   # silently scopes every unlisted permission to `none`.
   actions: write
-  # packages: write    # uncomment if pushing container images
+  packages: write   # push container images to GHCR
 
 concurrency:
   group: prerelease-${{ github.ref }}
@@ -88,6 +88,14 @@ jobs:
         with:
           go-version: "1.23.x"
           cache: true
+
+      - uses: docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compute prerelease tag
         id: tag

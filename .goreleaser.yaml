@@ -83,6 +83,55 @@ scoops:
     license: MIT
     skip_upload: auto
 
+# Multi-arch container images on GHCR. `docker pull
+# ghcr.io/heytalepazguato/plc-gitignore` works on amd64 and arm64.
+# Auth is handled by the release workflow's `docker login ghcr.io`.
+dockers:
+  - image_templates:
+      - "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}-amd64"
+    use: buildx
+    goos: linux
+    goarch: amd64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.description=Opinionated .gitignore and .gitattributes for PLC projects"
+      - "--label=org.opencontainers.image.url=https://github.com/HeytalePazguato/plc-gitignore"
+      - "--label=org.opencontainers.image.source=https://github.com/HeytalePazguato/plc-gitignore"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+  - image_templates:
+      - "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}-arm64"
+    use: buildx
+    goos: linux
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm64"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.description=Opinionated .gitignore and .gitattributes for PLC projects"
+      - "--label=org.opencontainers.image.url=https://github.com/HeytalePazguato/plc-gitignore"
+      - "--label=org.opencontainers.image.source=https://github.com/HeytalePazguato/plc-gitignore"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+docker_manifests:
+  - name_template: "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}"
+    image_templates:
+      - "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}-amd64"
+      - "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}-arm64"
+  - name_template: "ghcr.io/heytalepazguato/plc-gitignore:latest"
+    skip_push: auto
+    image_templates:
+      - "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}-amd64"
+      - "ghcr.io/heytalepazguato/plc-gitignore:{{ .Version }}-arm64"
+
 release:
   github:
     owner: HeytalePazguato
