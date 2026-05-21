@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — next: 0.1.1
 
+### Changed
+
+- Bump GitHub Actions (gha dependabot group): `actions/checkout` v4→v6,
+  `actions/setup-python` v5→v6, `actions/configure-pages` v5→v6,
+  `actions/upload-pages-artifact` v3→v5, `actions/deploy-pages` v4→v5,
+  `actions/upload-artifact` v4→v7, `docker/login-action` v3→v4. The
+  docker bump clears the Node 20 deprecation warning on the release job.
+
 ## [0.1.0] - 2026-05-19
 
 ### Added
